@@ -59,4 +59,20 @@ public class BoardController {
         List<BoardDTO> boardList = boardService.getBoardList();
         model.addAttribute("boardList",boardList);
     }
+    @GetMapping("/read")
+    public String boardDetail(Model model,
+                              @RequestParam(value = "idx",required = false)Long idx){
+        if(idx == null){
+            //올바르지 않은 접근이라는 메시지를 전달,게시글리스트로 리다이렉트
+            return "redirect:/board/list";
+        }
+        BoardDTO boardDTO = boardService.getBoardDetail(idx);
+        if(boardDTO == null || "Y".equals(boardDTO.getDeleteYn())){
+            //없는 게시글이거나, 이미 삭제된 게시글이라는 메시지를 전달하고, 게시글 리스트로 리다이렉트
+            return "redirect:/board/list";
+        }
+        model.addAttribute("board",boardDTO);
+        return "/board/read";
+
+    }
 }

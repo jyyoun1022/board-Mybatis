@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="board/layout/basic">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{board/layout/basic}">
 
 		<th:block layout:fragment="title">This page is a list page</th:block>
 		<th:block layout:fragment="search">
@@ -26,8 +26,8 @@
 					<tbody>
 					<tr  th:each="list : ${boardList}" th:if="${not #lists.isEmpty(boardList)}">
 						<td scope="row" th:text="${#strings.equals(list.noticeYn,'Y') ? '공지' : list.idx}"></td>
-						<td class="text-left"><a th:href="@{/board/view(idx=${list.idx})}" th:text="${list.idx}"></a></td>
-						<td class="text-left"><a th:href="@{/board/view(idx=${list.idx})}" th:text="${list.title}"></a></td>
+						<td class="text-left"><a th:href="@{/board/read(idx=${list.idx})}" th:text="${list.idx}"></a></td>
+						<td class="text-left"><a th:href="@{/board/read(idx=${list.idx})}" th:text="${list.title}"></a></td>
 						<td th:text="${list.writer}"></td>
 						<td th:text="${#temporals.format(list.insertTime,'yyyy-MM-dd')}"></td>
 						<td th:text="${list.viewCnt}"></td>
