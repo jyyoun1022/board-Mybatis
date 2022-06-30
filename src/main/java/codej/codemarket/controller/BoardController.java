@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/board")
@@ -18,9 +20,7 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    @GetMapping("/list")
-    public void list(){
-    }
+
 
     @GetMapping("write")
     public String write(Model model,
@@ -53,5 +53,10 @@ public class BoardController {
             //시스템에 문제가 발생하였다는 메시지를 전달
         }
         return "redirect:/board/list";
+    }
+    @GetMapping("/list")
+    public void boardList(Model model){
+        List<BoardDTO> boardList = boardService.getBoardList();
+        model.addAttribute("boardList",boardList);
     }
 }
