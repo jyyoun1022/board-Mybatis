@@ -1,0 +1,17 @@
+server:
+  port: 9090
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/codemarket?serverTimezone=Asia/Seoul
+    username: codemarket
+    password: yjy^^46232891
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mappers/*Mapper.xml
+
+
