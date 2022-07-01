@@ -35,8 +35,7 @@
         <div class="btn_wrap text-center">
             <a th:href="@{/board/list}"class="btn btn-default waves-effect waves-light">뒤로가기</a>
             <a th:href="@{/board/write(idx=${board.idx})}" class="btn btn-primary waves-effect waves-light">수정하기</a>
-            <button type="button" class="btn btn-danger waves-effect waves-light" th:onclick="deleteBoard([[
-            ${board.idx} ]])">삭제</button>
+            <button type="button" class="btn btn-danger waves-effect waves-light" th:onclick="deleteBoard([[ ${board.idx} ]])">삭제</button>
         </div>
     </div>
 </th:block>
@@ -75,6 +74,27 @@
                 </form>
             </div>
         </div>
+    </th:block>
+    <th:block layout:fragment="script">
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            function deleteBoard(idx) {
+
+                if (confirm(idx + "번 게시글을 삭제할까요?")) {
+                    var uri = /*[[ @{/board/delete} ]]*/null;
+                    var html = "";
+
+                    html += '<form name="dataForm" action="'+uri+'" method="post">';
+                    html += '<input type="hidden" name="idx" value="'+idx+'" />';
+                    html += '</form>';
+
+                    $("body").append(html);
+                    document.dataForm.submit();
+                }
+            }
+
+                /*]]>*/
+        </script>
     </th:block>
 </html>
 
