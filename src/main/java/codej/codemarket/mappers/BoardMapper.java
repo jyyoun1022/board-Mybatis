@@ -1,6 +1,7 @@
 package codej.codemarket.mappers;
 
 import codej.codemarket.domain.BoardDTO;
+import codej.codemarket.paging.Criteria;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -16,8 +17,8 @@ public interface BoardMapper {
 
      int deleteBoard(Long idx);
 
-     List<BoardDTO> selectBoardList();
+     List<BoardDTO> selectBoardList(Criteria criteria);
 
-     int selectBoardTotalCount();
+     int selectBoardTotalCount(Criteria criteria);
 
 }

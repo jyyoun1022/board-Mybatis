@@ -9,6 +9,7 @@
 
     <typeAliases>
         <typeAlias alias="boardDTO" type="codej.codemarket.domain.BoardDTO"/>
+        <typeAlias alias="criteria" type="codej.codemarket.paging.Criteria"></typeAlias>
     </typeAliases>
 
 

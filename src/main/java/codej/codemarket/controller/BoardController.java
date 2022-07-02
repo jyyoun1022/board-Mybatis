@@ -2,16 +2,14 @@ package codej.codemarket.controller;
 
 import codej.codemarket.constant.Method;
 import codej.codemarket.domain.BoardDTO;
+import codej.codemarket.paging.Criteria;
 import codej.codemarket.service.BoardService;
 import codej.codemarket.util.UiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -58,9 +56,12 @@ public class BoardController extends UiUtils {
         return showMessageWithRedirect("게시글 등록이 완료되었습니다.","/board/list",Method.GET,null,model);
     }
     @GetMapping("/list")
-    public void boardList(Model model){
-        List<BoardDTO> boardList = boardService.getBoardList();
+    public String boardList(Model model, @ModelAttribute("criteria")Criteria criteria){
+        List<BoardDTO> boardList = boardService.getBoardList(criteria);
         model.addAttribute("boardList",boardList);
+
+        return "/board/list";
+
     }
     @GetMapping("/read")
     public String boardDetail(Model model,
