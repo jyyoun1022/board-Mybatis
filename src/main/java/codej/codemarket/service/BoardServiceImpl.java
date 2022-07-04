@@ -56,9 +56,10 @@ public class BoardServiceImpl implements BoardService{
 
         int boardTotalCount = boardMapper.selectBoardTotalCount(boardDTO);
 
-        PaginationInfo paginationInfo = new PaginationInfo(boardDTO);
 
+        PaginationInfo paginationInfo = new PaginationInfo(boardDTO);
         paginationInfo.setTotalRecordCount(boardTotalCount);
+
 
         boardDTO.setPaginationInfo(paginationInfo);
 
