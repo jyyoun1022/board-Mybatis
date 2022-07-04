@@ -56,8 +56,11 @@ public class BoardController extends UiUtils {
         return showMessageWithRedirect("게시글 등록이 완료되었습니다.","/board/list",Method.GET,null,model);
     }
     @GetMapping("/list")
-    public String boardList(Model model, @ModelAttribute("criteria")Criteria criteria){
-        List<BoardDTO> boardList = boardService.getBoardList(criteria);
+    public String boardList(Model model, @ModelAttribute("params")BoardDTO params){
+//        int boardTotalCount = boardService.getBoardTotalCount(params);
+
+
+        List<BoardDTO> boardList = boardService.getBoardList(params);
         model.addAttribute("boardList",boardList);
 
         return "/board/list";

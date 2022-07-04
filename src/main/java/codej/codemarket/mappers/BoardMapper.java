@@ -17,8 +17,8 @@ public interface BoardMapper {
 
      int deleteBoard(Long idx);
 
-     List<BoardDTO> selectBoardList(Criteria criteria);
+     List<BoardDTO> selectBoardList(BoardDTO boardDTO);
 
-     int selectBoardTotalCount(Criteria criteria);
+     int selectBoardTotalCount(BoardDTO boardDTO);
 
 }

@@ -70,7 +70,7 @@
             idx = #{idx}
     </update>
 
-    <select id="selectBoardList" resultType="BoardDTO" parameterType="criteria">
+    <select id="selectBoardList" resultType="BoardDTO" parameterType="BoardDTO">
         select
             <include refid="boardColumns"/>
         from
@@ -82,10 +82,10 @@
             idx desc ,
             insert_time desc
         limit
-                #{startPage},#{recordsPerPage}
+                #{paginationInfo.firstRecordIndex},#{recordsPerPage}
     </select>
 
-    <select id="selectBoardTotalCount"   parameterType="criteria"  resultType="int">
+    <select id="selectBoardTotalCount"   parameterType="BoardDTO"  resultType="int">
         select
             count(*)
         from

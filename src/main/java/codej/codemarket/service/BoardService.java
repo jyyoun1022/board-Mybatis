@@ -13,7 +13,9 @@ public interface BoardService {
 
      boolean deleteBoard(Long idx);
 
-      List<BoardDTO> getBoardList(Criteria criteria);
+      List<BoardDTO> getBoardList(BoardDTO boardDTO);
+
+      int getBoardTotalCount(BoardDTO boardDTO);
 
 
 }

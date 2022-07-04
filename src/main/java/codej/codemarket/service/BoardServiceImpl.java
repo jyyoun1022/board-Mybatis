@@ -3,6 +3,7 @@ package codej.codemarket.service;
 import codej.codemarket.domain.BoardDTO;
 import codej.codemarket.mappers.BoardMapper;
 import codej.codemarket.paging.Criteria;
+import codej.codemarket.paging.PaginationInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -49,16 +50,28 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public List<BoardDTO> getBoardList(Criteria criteria) {
+    public List<BoardDTO> getBoardList(BoardDTO boardDTO) {
 
         List<BoardDTO> boardList = Collections.emptyList();
 
-        int boardTotalCount = boardMapper.selectBoardTotalCount(criteria);
+        int boardTotalCount = boardMapper.selectBoardTotalCount(boardDTO);
+
+        PaginationInfo paginationInfo = new PaginationInfo(boardDTO);
+
+        paginationInfo.setTotalRecordCount(boardTotalCount);
+
+        boardDTO.setPaginationInfo(paginationInfo);
 
         if(boardTotalCount > 0 ){
-            boardList = boardMapper.selectBoardList(criteria);
+            boardList = boardMapper.selectBoardList(boardDTO);
         }
 
         return boardList;
+    }
+
+    @Override
+    public int getBoardTotalCount(BoardDTO boardDTO) {
+        int result = boardMapper.selectBoardTotalCount(boardDTO);
+        return result;
     }
 }
