@@ -10,6 +10,8 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+    converters:
+      preferred-json-mapper: gson
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mappers/*Mapper.xml
