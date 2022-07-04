@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,15 +24,15 @@ public class BoardController extends UiUtils {
 
 
     @GetMapping("/write")
-    public String write(Model model,
+    public String write(@ModelAttribute("params")BoardDTO parmas, Model model,
                       @RequestParam(value = "idx",required = false) Long idx){
 
         if(idx == null){
             model.addAttribute("board",new BoardDTO());
         }else{
             BoardDTO boardDTO = boardService.getBoardDetail(idx);
-            if( boardDTO == null){
-                return "redirect:/board/list";
+            if( boardDTO == null || "Y".equals(boardDTO.getDeleteYn())){
+                return showMessageWithRedirect("없는 게시글이거나 이미 삭제된 게시글입니다.", "/board/list", Method.GET, null, model);
             }
             model.addAttribute("board",boardDTO);
 
@@ -40,9 +41,9 @@ public class BoardController extends UiUtils {
 
     }
     @PostMapping("/register")
-    public String register(final BoardDTO boardDTO,Model model){
+    public String register(@ModelAttribute("params")final BoardDTO params,Model model){
         try{
-            boolean isRegistered = boardService.registerBoard(boardDTO);
+            boolean isRegistered = boardService.registerBoard(params);
             if(isRegistered == false){
                 return showMessageWithRedirect("게시글 등록에 실패했습니다.","/board/list", Method.GET,null,model);
             }
@@ -67,41 +68,44 @@ public class BoardController extends UiUtils {
 
     }
     @GetMapping("/read")
-    public String boardDetail(Model model,
+    public String boardDetail(@ModelAttribute("params")BoardDTO params,
+                              Model model,
                               @RequestParam(value = "idx",required = false)Long idx){
         if(idx == null){
             //올바르지 않은 접근이라는 메시지를 전달,게시글리스트로 리다이렉트
-            return "redirect:/board/list";
+            return showMessageWithRedirect("올바르지 않은 접근 입니다.","/board/list",Method.GET,null,model);
         }
         BoardDTO boardDTO = boardService.getBoardDetail(idx);
         if(boardDTO == null || "Y".equals(boardDTO.getDeleteYn())){
             //없는 게시글이거나, 이미 삭제된 게시글이라는 메시지를 전달하고, 게시글 리스트로 리다이렉트
-            return "redirect:/board/list";
+            return showMessageWithRedirect("없는 게시글이거나 이미 삭제된 게시글입니다.", "/board/list", Method.GET, null, model);
         }
         model.addAttribute("board",boardDTO);
         return "/board/read";
 
     }
     @PostMapping("/delete")
-    public String delete(@RequestParam(value = "idx",required = false)Long idx,Model model){
+    public String delete(@ModelAttribute("params")BoardDTO params,@RequestParam(value = "idx",required = false)Long idx,Model model){
         if(idx == null){
             //올바르지 않은 접근이라는 메시지를 전달하고, 게시글 리스트로 리다이렉트
             return showMessageWithRedirect("올바르지 않은 접근입니다.","/board/lit",Method.GET,null,model);
         }
+
+        Map<String, Object> pagingParams = getPagingParams(params);
         try{
             boolean isDeleted = boardService.deleteBoard(idx);
             if(isDeleted == false){
                 //게시글 삭제에 실패했다는 메시지 전달
-                return showMessageWithRedirect("게시글 삭제에 실패했습니다.","/board/list",Method.GET,null,model);
+                return showMessageWithRedirect("게시글 삭제에 실패했습니다.","/board/list",Method.GET,pagingParams,model);
             }
         }catch (DataAccessException e){
             //데이터베이스 처리 과정에 문제가 발생했다는 메시지 전달
-            return showMessageWithRedirect("시스템에 문제가 발생하였습니다.", "/board/list", Method.GET, null, model);
+            return showMessageWithRedirect("시스템에 문제가 발생하였습니다.", "/board/list", Method.GET, pagingParams, model);
         }catch (Exception e){
             //시스템에 문제가 발생했다는 메시지 전달
-            return showMessageWithRedirect("시스템에 문제가 발생하였습니다.", "/board/list", Method.GET, null, model);
+            return showMessageWithRedirect("시스템에 문제가 발생하였습니다.", "/board/list", Method.GET, pagingParams, model);
         }
-        return showMessageWithRedirect("게시글 삭제가 완료되었습니다.", "/board/list", Method.GET, null, model);
+        return showMessageWithRedirect("게시글 삭제가 완료되었습니다.", "/board/list", Method.GET, pagingParams, model);
     }
     }
 
