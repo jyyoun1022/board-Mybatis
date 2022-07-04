@@ -32,7 +32,7 @@ public class CommentTests {
 
         for(int i =0; i<= number; i++){
             CommentDTO params = new CommentDTO();
-            params.setBoardIdx(23L);
+            params.setBoardIdx(249L);
             params.setContent(i+" 번 댓글을 추가");
             params.setWriter(i+" 번 회원");
             commentService.registerComment(params);
@@ -67,7 +67,7 @@ public class CommentTests {
     @DisplayName("댓글 리스트 출력")
     void getCommentList(){
         CommentDTO params = new CommentDTO();
-        params.setBoardIdx(23L);
+        params.setBoardIdx(249L);
         commentService.getCommentList(params);
     }
 
