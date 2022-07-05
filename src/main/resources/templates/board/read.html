@@ -7,6 +7,7 @@
 <th:block layout:fragment="content">
     <div class="card-content">
         <form class="form-horizontal" th:object="${board}" action="">
+
             <div class="form-group">
                 <label for="title" class="col-sm-2 control-label">제목</label>
                 <div class="col-sm-10">
@@ -31,6 +32,7 @@
                     <p class="form-control" th:text="*{viewCnt}"></p>
                 </div>
             </div>
+
         </form>
         <div class="btn_wrap text-center" th:object="${params}">
             <a th:href="|@{/board/list}*{makeQueryString(currentPageNo)}|"class="btn btn-default waves-effect waves-light">뒤로가기</a>
@@ -56,8 +58,11 @@
                         </div>
                         <div class="form-group">
                             <label for="modalContent" class="col-form-label">내용</label>
-                            <textarea id="modalContent" cols="30" rows="10" class="form-control" placeholder="내용을 입력해주세요."></textarea>
+                            <textarea id="modalContent" cols="10" rows="2" class="form-control" placeholder="내용을 입력해주세요."></textarea>
+                            <input type="hidden" name="idx">
+
                         </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -125,6 +130,46 @@
                 printCommentList();
             });
 
+            function openModal(idx,writer,content){
+                $("#commentModal").modal("toggle");
+
+                document.getElementById("modalWriter").value = writer;
+                document.getElementById("modalContent").value = content;
+                document.getElementById("btnCommentUpdate").setAttribute("onclick","updateComment("+idx+")");
+                document.getElementById("btnCommentDelete").setAttribute("onclick", "deleteComment("+ idx +")");
+            }
+
+            function deleteComment(idx){
+                if(!confirm('댓글을 삭제하시겠어요?')){
+                    return false;
+                }
+
+                var uri = [[ @{/comments/} ]] + idx;
+                var headers = {"Content-Type": "application/json", "X-HTTP-Method-Override": "DELETE"};
+
+                $.ajax({
+                    url: uri,
+                    type: "DELETE",
+                    headers: headers,
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.result == false) {
+                            alert("댓글 삭제에 실패하였습니다.");
+                            return false;
+                        }
+
+                        printCommentList();
+                        $("#commentModal").modal("hide");
+                    },
+                    error: function(xhr, status, error) {
+                        alert("에러가 발생하였습니다.");
+                        return false;
+                    }
+                });
+            }
+
+
+
             function insertComment(boardIdx){
 
                 var content = document.getElementById("content");
@@ -166,11 +211,44 @@
 
             }
 
+            function updateComment(idx){
+                var writer = document.getElementById("modalWriter");
+                var content = document.getElementById("modalContent");
+
+                var uri = [[ @{/comments/} ]] + idx;
+                var headers = {"Content-Type": "application/json", "X-HTTP-Method-Override": "PATCH"};
+                var params = {"idx": idx, "writer": writer.value, "content": content.value};
+
+                $.ajax({
+                    url: '/comments/ '+idx,
+                    type: "PATCH",
+                    headers: headers,
+                    dataType: "json",
+                    data: JSON.stringify(params),
+                    success: function(response) {
+                        if (response.result == false) {
+                            alert("댓글 수정에 실패하였습니다.");
+                            return false;
+                        }
+
+                        printCommentList();
+                        $("#commentModal").modal("hide");
+                    },
+                    error: function(xhr, status, error) {
+                        alert("에러가 발생하였습니다.");
+                        return false;
+                    }
+                });
+
+
+            }
+
             function printCommentList(){
 
-                var uri = /*[[ @{/comments/} + ${board.idx} ]]*/null;
 
-                $.get(uri, function(response) {
+                var idx = [[${board.idx}]];
+
+                $.get('/comments/'+idx, function(response) {
                     if (isEmpty(response) == false) {
                         var commentsHtml = "";
 
@@ -180,7 +258,7 @@
 							<span class="name">${comment.writer}</span>
 							<span class="desc">${comment.content}</span>
 							<span class="time">${moment(comment.insertTime).format('YYYY-MM-DD HH:mm:ss')}</span>
-							<button type="button" class="btn btn-xs btn-warning btn-circle"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></button>
+							<button type="button" onclick="openModal(${comment.idx}, '${comment.writer}','${comment.content}')" class="btn btn-xs btn-warning btn-circle"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></button>
 						</li>
 					`;
                         });
