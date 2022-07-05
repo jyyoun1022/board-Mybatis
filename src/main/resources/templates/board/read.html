@@ -48,9 +48,9 @@
                 </div>
                 <form class="form-horizontal form-view">
                     <div class="input-group margin-bottom-20">
-                        <input type="email" class="form-control" placeholder="">
+                        <input type="text"  id="content" class="form-control">
                         <div class="input-group-btn">
-                            <button type="button" class="btn waves-effect waves-light">
+                            <button type="button" class="btn waves-effect waves-light" th:onclick="insertComment([[${board.idx}]])">
                                 <i class="fa fa-commenting" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -94,9 +94,51 @@
             $(function(){
                 printCommentList();
             });
+
+            function insertComment(boardIdx){
+
+                var content = document.getElementById("content");
+
+                console.log(content.valueOf());
+                console.log(content.value);
+
+                if(isEmpty(content.value) == true ){
+                    content.setAttribute("placeholder","댓글을 입력해주세요");
+                    content.focus();
+                    return false;
+                }
+
+                var uri = /*[[@{/comments}]]*/null;
+                var headers = {"Content-Type":"application/json",
+                "X-HTTP-Method_Override" :"POST"};
+                var params = {"boardIdx" : boardIdx,"content":content.value, "writer":"관리자"};
+
+                $.ajax({
+                    url : uri,
+                    type : "POST",
+                    headers : headers,
+                    dataType : "json",
+                    data : JSON.stringify(params),
+                    success : function (response){
+                        if(response.result == false){
+                            alert("댓글 등록에 실패하였습니다.")
+                            return false;
+                        }
+                        printCommentList();
+                        content.value = "";
+                    },
+                    error : function(xhr,status,error){
+                        alert("에러가 발생하였습니다.")
+                        return false;
+                    }
+                });
+
+
+            }
+
             function printCommentList(){
 
-                var uri = /* [[ @{/comments/} + ${board.idx} ]]*/null;
+                var uri = /*[[ @{/comments/} + ${board.idx} ]]*/null;
 
                 $.get(uri, function(response) {
                     if (isEmpty(response) == false) {
