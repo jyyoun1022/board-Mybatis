@@ -21,4 +21,6 @@ public interface BoardMapper {
 
      int selectBoardTotalCount(BoardDTO boardDTO);
 
+     void updateBoardViewCnt(Long idx);
+
 }

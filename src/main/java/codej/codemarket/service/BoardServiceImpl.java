@@ -33,6 +33,7 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public BoardDTO getBoardDetail(Long idx) {
+        boardMapper.updateBoardViewCnt(idx);
         return boardMapper.selectBoardDetail(idx);
     }
 

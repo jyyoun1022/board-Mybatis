@@ -11,6 +11,7 @@
         <typeAlias alias="boardDTO" type="codej.codemarket.domain.BoardDTO"/>
         <typeAlias alias="criteria" type="codej.codemarket.paging.Criteria"></typeAlias>
         <typeAlias alias="commentDTO" type="codej.codemarket.domain.CommentDTO"></typeAlias>
+        <typeAlias alias="attachDTO" type="codej.codemarket.domain.AttachDTO"></typeAlias>
     </typeAliases>
 
 

@@ -131,4 +131,13 @@
             delete_yn = 'N'
         <include refid="search"/>
     </select>
+
+    <update id="updateBoardViewCnt">
+        update
+            tb_board
+        set
+            view_cnt = view_cnt+1
+        where
+            idx = #{idx}
+    </update>
 </mapper>
