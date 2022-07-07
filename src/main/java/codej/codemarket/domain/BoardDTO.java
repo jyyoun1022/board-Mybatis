@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 
 @Setter
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class BoardDTO extends CommonDTO{
 
    private Long idx;

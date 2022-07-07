@@ -49,11 +49,11 @@
             delete_yn = 'Y',
             delete_time = now()
         where
-            board_idx = ${boardIdx}
+            board_idx = #{boardIdx}
 
     </update>
 
-    <select id="selectAttachList" parameterType="Long" parameterMap="attachDTO">
+    <select id="selectAttachList" parameterType="Long" resultType="attachDTO">
         select
             <include refid="attachColumns"/>
         from

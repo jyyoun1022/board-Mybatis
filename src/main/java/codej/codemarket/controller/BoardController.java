@@ -1,6 +1,7 @@
 package codej.codemarket.controller;
 
 import codej.codemarket.constant.Method;
+import codej.codemarket.domain.AttachDTO;
 import codej.codemarket.domain.BoardDTO;
 import codej.codemarket.paging.Criteria;
 import codej.codemarket.service.BoardService;
@@ -10,6 +11,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +26,7 @@ public class BoardController extends UiUtils {
 
 
     @GetMapping("/write")
-    public String write(@ModelAttribute("params")BoardDTO parmas, Model model,
+    public String write(@ModelAttribute("params")BoardDTO params, Model model,
                       @RequestParam(value = "idx",required = false) Long idx){
 
         if(idx == null){
@@ -36,14 +38,23 @@ public class BoardController extends UiUtils {
             }
             model.addAttribute("board",boardDTO);
 
+//            List<AttachDTO> fileList = boardService.getAttachFileList(idx);
+//            model.addAttribute("fileList",fileList);
         }
         return "/board/write";
 
     }
     @PostMapping("/register")
-    public String register(@ModelAttribute("params")final BoardDTO params,Model model){
+    public String register(@ModelAttribute("params") BoardDTO params,
+                            MultipartFile[] files,Model model){
+
+        Map<String,Object> pagingParams = getPagingParams(params);
+
         try{
-            boolean isRegistered = boardService.registerBoard(params);
+            System.out.println("여기1");
+            boolean isRegistered = boardService.registerBoard(params,files);
+            System.out.println("여기2");
+            System.out.println(isRegistered);
             if(isRegistered == false){
                 return showMessageWithRedirect("게시글 등록에 실패했습니다.","/board/list", Method.GET,null,model);
             }

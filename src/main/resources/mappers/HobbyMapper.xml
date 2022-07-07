@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="codej.codemarket.mappers.HobbyMapper">
+
+    <insert id="insertHobby" parameterType="hobbyDTO">
+
+        <selectKey keyProperty="hobbyId" resultType="int" order="BEFORE">
+            select max(hobby_id)+1 from hobby
+        </selectKey>
+
+        insert into hobby(
+                          hobby_id,hobby_name,user_id
+        )values (
+                 #{hobbyId},#{hobbyName},#{userId}
+                        )
+
+
+
+    </insert>
+
+</mapper>

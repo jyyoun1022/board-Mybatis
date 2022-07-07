@@ -53,7 +53,7 @@
         </if>
     </sql>
 
-    <insert id="insertBoard" parameterType="BoardDTO">
+    <insert id="insertBoard" parameterType="boardDTO">
         insert into tb_board(
                              <include refid="boardColumns"/>
         )values (
@@ -69,6 +69,9 @@
                  ,NULL
                  ,NULL
         )
+<selectKey keyProperty="item.idx" resultType="Long" order="AFTER">
+    select LAST_INSERT_ID()
+</selectKey>
     </insert>
 
     <select id="selectBoardDetail" resultType="BoardDTO" parameterType="Long">
