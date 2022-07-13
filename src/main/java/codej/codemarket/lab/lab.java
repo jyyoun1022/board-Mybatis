@@ -1,14 +1,18 @@
 package codej.codemarket.lab;
 
+import codej.codemarket.domain.User;
+
 public class lab {
 
-    Optional<User> userOptrioinal = userRepository.findByEmail());
-    User user ;
+    public static void main(String[] args) {
+        int a =65;
+        int b = -66;
 
-    if(userOptional.isPresent()){
-        user = userOptional.get();
+        char a2 =65;
 
-        if(!user.getProvider().equals(AuthProvider.value))
+        System.out.println((char)a);
+        System.out.println((char)b);
+        System.out.println(a2);
     }
 
 }
