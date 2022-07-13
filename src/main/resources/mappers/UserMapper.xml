@@ -13,4 +13,9 @@
                  #{password},#{email},#{active},#{role}
                         )
     </insert>
+    <select id="existsByEmail" parameterType="String" resultType="boolean">
+        select  case  when count(*) = 1  then 1 else 0  end AS exist
+        from tb_user
+        where email = #{email}
+    </select>
 </mapper>
