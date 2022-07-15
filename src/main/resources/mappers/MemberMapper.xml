@@ -32,4 +32,12 @@ values (#{id},#{name},#{nickname},#{email},#{text},#{instaUrl},#{twitterUrl},#{p
             select last_insert_id()
         </selectKey>
     </insert>
+
+    <select id="findAll">
+        select
+            <include refid="memberColumns"/>
+        from
+            member
+
+    </select>
 </mapper>
