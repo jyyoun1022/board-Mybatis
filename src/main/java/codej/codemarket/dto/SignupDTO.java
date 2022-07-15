@@ -33,6 +33,7 @@ public class SignupDTO {
                 .name(this.name)
                 .nickname(this.nickname)
                 .password(this.password)
+                .email(this.email)
                 .phone(this.phone)
                 .university(this.university)
                 .build();

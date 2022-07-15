@@ -24,8 +24,18 @@
         where
             email = #{email}
     </select>
+    <select id="findById" resultType="memberDTO" parameterType="Long">
+        select
+            <include refid="memberColumns"/>
+        from
+            member
+        where
+            id=#{id}
+    </select>
 
-    <insert id="insert" parameterType="memberDTO" useGeneratedKeys="true" keyProperty="id">
+
+
+    <insert id="insert" parameterType="memberDTO" >
         insert into member
 values (#{id},#{name},#{nickname},#{email},#{text},#{instaUrl},#{twitterUrl},#{password},#{phone},#{university})
         <selectKey resultType="memberDTO" order="AFTER" keyProperty="id">
@@ -40,4 +50,15 @@ values (#{id},#{name},#{nickname},#{email},#{text},#{instaUrl},#{twitterUrl},#{p
             member
 
     </select>
+
+    <update id="updateMember"  >
+        update
+            member
+        set
+            text=#{text},
+            insta_url=#{instaUrl},
+            twitter_url=#{twitterUrl}
+        where
+            id = #{id}
+    </update>
 </mapper>

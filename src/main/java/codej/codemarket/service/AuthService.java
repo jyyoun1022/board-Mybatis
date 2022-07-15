@@ -5,7 +5,9 @@ import codej.codemarket.mappers.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +22,9 @@ public class AuthService {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private final MemberMapper memberMapper;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+//    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
 
 
     /**
@@ -38,8 +42,9 @@ public class AuthService {
      */
     @Transactional
     public int join(MemberDTO memberDTO){
-        String encPassword = bCryptPasswordEncoder.encode(memberDTO.getPassword());
 
+        String rawPassword = memberDTO.getPassword();
+        String encPassword = passwordEncoder.encode(rawPassword);
         memberDTO.setPassword(encPassword);
 
         int count = memberMapper.insert(memberDTO);

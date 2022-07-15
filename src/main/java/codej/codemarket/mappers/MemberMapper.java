@@ -12,7 +12,11 @@ public interface MemberMapper {
 
     MemberDTO findByEmail(String email);
 
+    MemberDTO findById(Long id);
+
     int insert(MemberDTO memberDTO);
 
     List<MemberDTO> findAll();
+
+    void updateMember(MemberDTO memberDTO);
 }
