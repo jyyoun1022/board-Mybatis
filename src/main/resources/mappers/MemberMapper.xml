@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="codej.codemarket.mappers.MemberMapper">
+
+    <sql id="memberColumns">
+        id,name,nickname,email,text,insta_url,twitter_url,password,phone,university
+    </sql>
+
+    <select id="findByNickname" resultType="memberDTO" parameterType="String">
+        select
+            <include refid="memberColumns"/>
+        from
+            member
+        where
+            nickname=#{nickname}
+    </select>
+
+    <select id="findByEmail" resultType="memberDTO" parameterType="String">
+        select
+            <include refid="memberColumns"/>
+        from
+            member
+        where
+            email = #{email}
+    </select>
+
+    <insert id="insert" parameterType="memberDTO" useGeneratedKeys="true" keyProperty="id">
+        insert into member
+values (#{id},#{name},#{nickname},#{email},#{text},#{instaUrl},#{twitterUrl},#{password},#{phone},#{university})
+        <selectKey resultType="memberDTO" order="AFTER" keyProperty="id">
+            select last_insert_id()
+        </selectKey>
+    </insert>
+</mapper>

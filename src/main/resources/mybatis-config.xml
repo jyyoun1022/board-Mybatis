@@ -15,6 +15,7 @@
         <typeAlias alias="hobbyDTO" type="codej.codemarket.domain.HobbyDTO"/>
         <typeAlias type="codej.codemarket.domain.UserDTO" alias="userDTO" />
         <typeAlias type="codej.codemarket.domain.User" alias="user" />
+        <typeAlias type="codej.codemarket.domain.MemberDTO" alias="memberDTO"/>
     </typeAliases>
 
 
