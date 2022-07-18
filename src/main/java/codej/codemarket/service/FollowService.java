@@ -18,9 +18,9 @@ public class FollowService {
     /**
      * 팔로우
      */
-    @Transactional
-    public void doFollow(Long followMember,Long followedMember){
-        followMapper.
-    }
+//    @Transactional
+//    public void doFollow(Long followMember,Long followedMember){
+//        followMapper.
+//    }
 
 }

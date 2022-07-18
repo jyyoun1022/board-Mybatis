@@ -18,6 +18,7 @@
         <typeAlias type="codej.codemarket.domain.MemberDTO" alias="memberDTO"/>
         <typeAlias type="codej.codemarket.domain.Notice" alias="noticeDTO"/>
         <typeAlias type="codej.codemarket.domain.Follow" alias="followDTO"/>
+
     </typeAliases>
 
 
