@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="codej.codemarket.mappers.NoticeMapper">
+
+    <sql id="noticeColumns">
+        notice_id,member_id,text,link,reg_date,mod_date,state
+    </sql>
+
+    <insert id="save">
+        insert into notice(
+                           <include refid="noticeColumns"/>
+        )values (#{noticeId},#{memberId},#{text},#{link},#{regDate},#{modDate},#{sate})
+    </insert>
+</mapper>
